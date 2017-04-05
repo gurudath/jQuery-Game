@@ -1,22 +1,44 @@
 ggame = ( typeof( ggame ) === 'undefined' ) ? {} : ggame;
 ggame.gameFramework = ( typeof( ggame.gameFramework ) == 'undefined' ) ? {} : ggame.gameFramework;
-ggame.gameFramework.animationHandles = {};
-
-ggame.gameFramework.setFrame = function(divId,frameNumber, frameDimension) {
-		 $("#"+divId).css("background-position", "" + frameNumber * frameDimension +"px 0px");
+ggame.gameFramework.animationHandlesItems = {};
+ggame.gameFramework.animationsObjects={};
+ggame.gameFramework.windowObjects={
+	width: 800,
+	height: 350
 }
 
-ggame.gameFramework.x = function(divId,position) {
+ggame.gameFramework.traverseX=function(object,position,options={}){
+	    if(position!="left"){
+   			object.css({ 'right': '0px', 'left': '' }).animate({'right' : ggame.gameFramework.windowObjects.width+'px'},10000); 
+   		}else{
+   			object.css({ 'right': '', 'left': '0px' }).animate({'left' :  ggame.gameFramework.windowObjects.width+'px'},10000);       
+   		}
+}
+
+
+ggame.gameFramework.traverseY=function(object,position,options={}){	 
+	    if(position=="top"){
+   			object.css({'bottom': "" ,'top': '0px'}).animate({"top": ggame.gameFramework.windowObjects.height+'px'},10000);
+   		}else{
+   			object.css({'bottom': "0px" ,'top': ''}).animate({"bottom": ggame.gameFramework.windowObjects.height+'px'},10000);
+   		}
+}
+
+ggame.gameFramework.setFrame = function(divId, animation) {
+ 	$("#" + divId).css("background-position", "" + animation.currentFrame * animation.width + "px 0px");
+}
+
+ggame.gameFramework.x = function(object,position) {
  if(position) {
- $("#"+divId).css("left", position);
+ object.css("left", position);
  } else {
  return parseInt($("#"+divId).css("left"));
  }
 }
 
-ggame.gameFramework.y = function(divId,position) {
+ggame.gameFramework.y = function(object,position) {
  if(position) {
- $("#"+divId).css("top", position);
+ object.css("top", position);
  } else {
  return parseInt($("#"+divId).css("top"));
  }
@@ -29,30 +51,32 @@ ggame.gameFramework.addSprite = function(parentId, divId, options){
 	 width: 64,
 	 height: 64
 	 }, options);
- 	 $("#"+parentId).append("<div id='"+divId+"' style='position:absolute; left:"+options.x+"px; top: "+options.y+"px; width:"+options.width+"px ;height: "+options.height+"px'></div>");
+ 	 $("#"+parentId).append("<div id='"+divId+"' style='position:absolute; left:"+options.x+"px; top: "+options.y+"px; width:"+options.width+"px ;height: "+options.height+"px;'></div>");
 }
 
 ggame.gameFramework.animationHandles = function(divId, animation, loop){
- if(ggame.gameFramework.animationHandles[divId]){
- 	clearInterval(ggame.gameFramework.animationHandles[divId]);
+ if(ggame.gameFramework.animationHandlesItems[divId]){
+ 	clearInterval(ggame.gameFramework.animationHandlesItems[divId]);
  }
  if(animation.url){
 	 $("#"+divId).css("backgroundImage","url('"+animation.url+"')");
+     ggame.gameFramework.animationsObjects[divId] = $('#'+divId);
  }
  if(animation.numberOfFrame > 1){
-	// ggame.animationHandles[divId] = setInterval(function(){
-	// animation.currentFrame++;
-	//  if(!loop && animation.currentFrame > animation.numberOfFrame){
-	// 	 clearInterval(ggame.animationHandles[divId]);
- // 		 ggame.animationHandles[divId] = false;
-	//  } else {
-	// 	 animation.currentFrame %= animation.numberOfFrame;
- // 		 ggame.gameFramework.setFrame(divId, animation);
- // 	 }
- // 	}, animation.rate);
- 	ggame.gameFramework.animationHandles[divId] = setInterval(function(){
-		 ggame.gameFramework.setFrame("sprite1",animation.frameNumber, animation.width);
-			 animation.frameNumber = (animation.frameNumber + 1) % animation.numberOfFrame;
-	}, animation.rate);
+	ggame.gameFramework.animationHandlesItems[divId] = setInterval(function(){
+	animation.currentFrame++;
+	 if(!loop && animation.currentFrame > animation.numberOfFrame){
+		 clearInterval(ggame.gameFramework.animationHandlesItems[divId]);
+ 		 ggame.gameFramework.animationHandlesItems[divId] = false;
+	 } else {
+		 animation.currentFrame %= animation.numberOfFrame;
+ 		 ggame.gameFramework.setFrame(divId, animation);
+ 	 }
+ 	}, animation.rate);
   }
+}
+
+
+ggame.gameFramework.runItem = function(parentObj,direction,options){
+	ggame.gameFramework.traverseX(ggame.gameFramework.animationsObjects['sprite1'],'left',ggame.gameFramework.traverseY(ggame.gameFramework.animationsObjects['sprite1'],'top',ggame.gameFramework.traverseX(ggame.gameFramework.animationsObjects['sprite1'],'right',ggame.gameFramework.traverseY(ggame.gameFramework.animationsObjects['sprite1'],'bottom'))));
 }

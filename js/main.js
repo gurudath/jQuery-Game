@@ -6,6 +6,7 @@
       var default_values = {
        url : './images/sprint1.png',
        subchild_id: 'sprite1',
+       child_id: 'sprite_main',
 			 height : 86,
 			 width : 58,
 			 x: 0,
@@ -28,14 +29,11 @@
           	ggame.gameFramework.addSprite(default_values.id,'sprite1',options)
           	$(obj).css("position", "relative").append("<div id='sprite1' style='position: absolute'>");
 		      	$("#"+default_values.subchild_id).css({"backgroundImage":"url("+default_values.url+")","min-height":default_values.height,"max-height":default_values.height,"min-width":default_values.width,"max-width":default_values.width});
+            ggame.gameFramework.addSprite(default_values.child_id, default_values.subchild_id, default_values)
         }     
 
         function start(obj){
         	ggame.gameFramework.animationHandles(default_values.subchild_id,default_values,true)
-   //      	setInterval(function(){
-			// 	 ggame.gameFramework.setFrame("sprite1",default_values.frameNumber, default_values.width);
- 		// 		 default_values.frameNumber = (default_values.frameNumber + 1) % default_values.numberOfFrame;
-			// }, default_values.rate);
         }
        
         function bindEvents(element) {
