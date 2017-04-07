@@ -58,8 +58,10 @@ ggame.gameFramework.animationHandles = function(divId, animation, loop){
  if(ggame.gameFramework.animationHandlesItems[divId]){
  	clearInterval(ggame.gameFramework.animationHandlesItems[divId]);
  }
+ console.log(animation.url)
  if(animation.url){
-	 $("#"+divId).css("backgroundImage","url('"+animation.url+"')");
+ 	 ggame.gameImage.addImage(animation.url);
+	 // $("#"+divId).css("backgroundImage","url('"+animation.url+"')");
      ggame.gameFramework.animationsObjects[divId] = $('#'+divId);
  }
  if(animation.numberOfFrame > 1){
