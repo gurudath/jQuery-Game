@@ -3,8 +3,8 @@ ggame.gameFramework = ( typeof( ggame.gameFramework ) == 'undefined' ) ? {} : gg
 ggame.gameFramework.animationHandlesItems = {};
 ggame.gameFramework.animationsObjects={};
 ggame.gameFramework.windowObjects={
-	width: 800,
-	height: 350
+	width: 640,
+	height: 300
 }
 
 ggame.gameFramework.traverseX=function(object,position,options={}){

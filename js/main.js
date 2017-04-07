@@ -26,8 +26,8 @@
 
         function init(obj) {
           	var options = $.extend({ x: default_values.x, y: default_values.y , width: default_values.width, height: default_values.height }, options);
-          	ggame.gameFramework.addSprite(default_values.id,'sprite1',options)
-          	$(obj).css("position", "relative").append("<div id='sprite1' style='position: absolute'>");
+          	ggame.gameFramework.addSprite(default_values.id,default_values.subchild_id,options)
+          	$(obj).css("position", "relative").append("<div id='"+default_values.subchild_id+"' style='position: absolute'>");
 		      	$("#"+default_values.subchild_id).css({"backgroundImage":"url("+default_values.url+")","min-height":default_values.height,"max-height":default_values.height,"min-width":default_values.width,"max-width":default_values.width});
             ggame.gameFramework.addSprite(default_values.child_id, default_values.subchild_id, default_values)
         }     
@@ -44,7 +44,6 @@
         return this.each(function () {
             bindEvents(this);
         });
-
     };
 })(jQuery);
 
@@ -52,11 +51,23 @@
 $(document).ready(function () {
    var backgroundAnim = new ggame.gameImage.animation({
      url : "http://orig13.deviantart.net/cacc/f/2017/040/4/6/spritesheet_zector_sem_armadura_by_tiozacdasgalaxias-daygx0l.png",
-     numberOfFrame:8
+     numberOfFrame:8,
+     url : './images/sprint1.png',
+     subchild_id: 'sprite1',
+     child_id: 'sprite_main',
+     height : 86,
+     width : 58,
+     x: 0,
+     y: 0,
+     frameNumber : 0 ,
+     currentFrame : 0,
+     rate : 60
    });
+
    function initialize(){
     $('#button_click').hide();
     $('#mygame').show();
+    // $('#mygame').GGame(grassnim);
     $('#mygame').GGame(backgroundAnim);
    } 
    $("#startButton").click(function() {
